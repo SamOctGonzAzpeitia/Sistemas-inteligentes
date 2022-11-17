@@ -47,7 +47,7 @@ def juego(palillos, quitar):
     
     print()
     print()
-
+pvec=[]
 def player_movement(palillos, quitar):
 
     aux = int(input("¿Cuántos palillos quieres quitar? "))
@@ -62,7 +62,7 @@ def player_movement(palillos, quitar):
         else:
             palillos_quitar = aux
             flag=True
-
+    pvec.append(palillos_quitar)
     return palillos_quitar
 
 def computer_movement(palillos, quitar):
@@ -75,11 +75,11 @@ def computer_movement(palillos, quitar):
     print("El ordenador ha quitado " + str(palillos_quitar) + " palillos")
 
     return palillos_quitar
-
+vec=[]
 def inteligence_movement(palillos, quitar):
    
    palillos_quitar=0
-
+   
    while palillos_quitar == 0 or palillos_quitar > palillos:
         if palillos <= quitar:
             palillos_quitar = palillos
@@ -97,6 +97,7 @@ def inteligence_movement(palillos, quitar):
             palillos_quitar = random.randint(1, 2)
     
         print(palillos_quitar, palillos)
+        vec.append(palillos_quitar)
         return palillos_quitar
 
 def winner(turno):
@@ -105,9 +106,21 @@ def winner(turno):
     elif turno == 2:
         print("¡Has ganado!")
 
+    
+    with open("test.txt", "a") as f:
+        f.write(f'\n{",".join(str(e) for e in vec)}')
+    
+    with open("usuario.txt", "a") as f:
+        f.write(f'\n{",".join(str(e) for e in pvec)}')
 
-turno = 2
+turno = 1
 palillos, quitar = valores()
+
+
+with open("test.txt", "r") as f:
+    agent = f.readlines()
+
+
 
 os.system("cls")
 nivel = welcome()
@@ -128,7 +141,7 @@ while jugando:
         turno = 2
     elif turno == 2:
         print("Ordenador pensando")
-        time.sleep(4)
+        time.sleep(2)
         if nivel == 1:
             palillos_quitar = computer_movement(palillos, quitar)
         elif nivel == 2:
